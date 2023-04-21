@@ -1,6 +1,6 @@
-use engine::init;
-
+use engine::run;
 fn main() {
-    println!("Hello voxels");
-    init();
+    tracing_subscriber::fmt::init();
+    println!("Hello, world!");
+    pollster::block_on(engine::run());
 }
