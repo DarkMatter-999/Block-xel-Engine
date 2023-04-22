@@ -14,6 +14,8 @@ pub const OPENGL_TO_WGPU_MATRIX: cgmath::Matrix4<f32> = cgmath::Matrix4::new(
 
 const SAFE_FRAC_PI_2: f32 = FRAC_PI_2 - 0.0001;
 
+const SCROLL_SENSITIVITY: f32 = 100.0;
+
 #[derive(Debug)]
 pub struct Camera {
     pub position: Point3<f32>,
@@ -131,7 +133,7 @@ impl CameraController {
                 self.amount_up = amount;
                 true
             }
-            VirtualKeyCode::LShift => {
+            VirtualKeyCode::LControl => {
                 self.amount_down = amount;
                 true
             }
@@ -146,8 +148,7 @@ impl CameraController {
 
     pub fn process_scroll(&mut self, delta: &MouseScrollDelta) {
         self.scroll = -match delta {
-            // I'm assuming a line is about 100 pixels
-            MouseScrollDelta::LineDelta(_, scroll) => scroll * 100.0,
+            MouseScrollDelta::LineDelta(_, scroll) => scroll * SCROLL_SENSITIVITY,
             MouseScrollDelta::PixelDelta(PhysicalPosition { y: scroll, .. }) => *scroll as f32,
         };
     }
